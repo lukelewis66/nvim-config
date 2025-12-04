@@ -15,8 +15,16 @@ return {
     },
     {
         "neovim/nvim-lspconfig",
-        dependencies = { "mason-org/mason-lspconfig.nvim" },
+        dependencies = {
+            "mason-org/mason-lspconfig.nvim",
+            "hrsh7th/cmp-nvim-lsp",
+        },
         config = function()
+            -- Add LSP capabilities for nvim-cmp
+            local capabilities = require("cmp_nvim_lsp").default_capabilities()
+
+            -- Configure LSP servers with capabilities
+            vim.lsp.config("*", { capabilities = capabilities })
             -- LSP keymaps (set when LSP attaches to buffer)
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
