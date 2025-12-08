@@ -1,14 +1,39 @@
 return {
   "nvim-treesitter/nvim-treesitter",
-  build = ":TSUpdate", -- Automatically update parsers on installation
+  build = ":TSUpdate",
+  dependencies = {
+    "nvim-treesitter/nvim-treesitter-textobjects",
+  },
   config = function()
     require("nvim-treesitter.configs").setup({
-      -- List of parsers to ensure are installed
       ensure_installed = { "c", "lua", "vim", "javascript", "typescript", "html", "css", "json", "tsx" },
-      highlight = { enable = true }, -- Enable syntax highlighting
-      indent = { enable = true },    -- Enable indentation
-      autoinstall = true,            -- Automatically install missing parsers
-      -- You can add other features like folds, textobjects, etc.
+      highlight = { enable = true },
+      indent = { enable = true },
+      autoinstall = true,
+      textobjects = {
+        move = {
+          enable = true,
+          set_jumps = true,
+          goto_next_start = {
+            ["]f"] = "@function.outer",
+            ["]c"] = "@class.outer",
+          },
+          goto_previous_start = {
+            ["[f"] = "@function.outer",
+            ["[c"] = "@class.outer",
+          },
+        },
+        select = {
+          enable = true,
+          lookahead = true,
+          keymaps = {
+            ["af"] = "@function.outer",
+            ["if"] = "@function.inner",
+            ["ac"] = "@class.outer",
+            ["ic"] = "@class.inner",
+          },
+        },
+      },
     })
   end,
 }

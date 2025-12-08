@@ -11,7 +11,17 @@ return {
             sections = {
                 lualine_a = { "mode" },
                 lualine_b = { "branch", "diff", "diagnostics" },
-                lualine_c = { "filename" },
+                lualine_c = {
+                    {
+                        "filename",
+                        path = 1,  -- show relative path
+                        symbols = {
+                            modified = " ●",      -- unsaved changes
+                            readonly = " ",      -- read-only file
+                            unnamed = "[No Name]",
+                        },
+                    },
+                },
                 lualine_x = {
                     -- Show attached LSP clients
                     {

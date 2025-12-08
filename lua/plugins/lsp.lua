@@ -28,11 +28,6 @@ return {
             -- LSP keymaps (set when LSP attaches to buffer)
             vim.api.nvim_create_autocmd("LspAttach", {
                 callback = function(args)
-                    local client = vim.lsp.get_client_by_id(args.data.client_id)
-                    if client then
-                        vim.notify("LSP attached: " .. client.name, vim.log.levels.INFO)
-                    end
-
                     local opts = { buffer = args.buf }
 
                     vim.keymap.set("n", "gd", "<cmd>Telescope lsp_definitions<cr>", opts)
@@ -45,6 +40,15 @@ return {
                     vim.keymap.set("n", "<leader>d", vim.diagnostic.open_float, opts)
                     vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, opts)
                     vim.keymap.set("n", "]d", vim.diagnostic.goto_next, opts)
+                    -- ESLint fix
+                    vim.keymap.set("n", "<leader>cf", "<cmd>EslintFixAll<cr>", opts)
+                    -- Add missing imports (TypeScript)
+                    vim.keymap.set("n", "<leader>ci", function()
+                        vim.lsp.buf.code_action({
+                            context = { only = { "source.addMissingImports.ts" } },
+                            apply = true,
+                        })
+                    end, opts)
                 end,
             })
 

@@ -24,3 +24,19 @@ vim.opt.swapfile = false
 vim.opt.backup = false
 vim.opt.undofile = true
 vim.opt.updatetime = 50
+
+-- Disable netrw (we use mini.files and telescope)
+vim.g.loaded_netrw = 1
+vim.g.loaded_netrwPlugin = 1
+
+-- When opening a directory, open Telescope find_files instead
+vim.api.nvim_create_autocmd("VimEnter", {
+    callback = function(data)
+        -- Check if argument is a directory
+        if vim.fn.isdirectory(data.file) == 1 then
+            vim.cmd.cd(data.file)
+            vim.cmd.bdelete()
+            require("telescope.builtin").find_files()
+        end
+    end,
+})
