@@ -5,6 +5,7 @@ return {
         { "<leader>gv", "<cmd>DiffviewOpen<cr>", desc = "Open diff view (all changes)" },
         { "<leader>gV", "<cmd>DiffviewOpen --staged<cr>", desc = "Open diff view (staged only)" },
         { "<leader>gh", "<cmd>DiffviewFileHistory %<cr>", desc = "File history (current file)" },
+        { "<leader>gH", "<cmd>DiffviewFileHistory<cr>", desc = "Full git history" },
         { "<leader>gq", "<cmd>DiffviewClose<cr>", desc = "Close diff view" },
     },
     config = function()

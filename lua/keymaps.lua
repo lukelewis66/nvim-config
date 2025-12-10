@@ -8,6 +8,13 @@ vim.keymap.set("n", "<C-j>", "<C-w>j", { desc = "Move to bottom window" })
 vim.keymap.set("n", "<C-k>", "<C-w>k", { desc = "Move to top window" })
 vim.keymap.set("n", "<C-l>", "<C-w>l", { desc = "Move to right window" })
 
+-- Buffer management
+vim.keymap.set("n", "<leader>x", "<cmd>bd<cr>", { desc = "Close buffer" })
+
+-- Copy file path to clipboard
+vim.keymap.set("n", "<leader>cp", ':let @+ = expand("%:.")<CR>', { desc = "Copy relative path" })
+vim.keymap.set("n", "<leader>cP", ':let @+ = expand("%:p")<CR>', { desc = "Copy absolute path" })
+
 -- Toggle between source and test file
 vim.keymap.set("n", "<leader>tt", function()
     local current = vim.fn.expand("%:p")
