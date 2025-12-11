@@ -1,6 +1,8 @@
 return {
     'nvim-telescope/telescope.nvim', tag = 'v0.2.0',
     dependencies = { 'nvim-lua/plenary.nvim' },
+    -- Load telescope when opening files (so LSP keymaps work)
+    event = { "BufReadPre", "BufNewFile" },
     keys = {
         { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
         { '<leader>fg', '<cmd>Telescope live_grep<cr>', desc = 'Live Grep' },
