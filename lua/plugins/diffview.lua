@@ -14,6 +14,9 @@ return {
             keymaps = {
                 view = {
                     { "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" } },
+                    -- Navigate hunks (same as gitsigns)
+                    { "n", "]h", "]c", { desc = "Next hunk" } },
+                    { "n", "[h", "[c", { desc = "Previous hunk" } },
                     -- Revert hunk under cursor (uses gitsigns)
                     { "n", "<leader>hr", function() require("gitsigns").reset_hunk() end, { desc = "Reset hunk" } },
                 },
