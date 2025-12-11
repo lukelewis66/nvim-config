@@ -29,14 +29,22 @@ vim.opt.updatetime = 50
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
 
--- When opening a directory, open Telescope find_files instead
+-- When opening nvim without a file, open Harpoon menu
 vim.api.nvim_create_autocmd("VimEnter", {
     callback = function(data)
         -- Check if argument is a directory
         if vim.fn.isdirectory(data.file) == 1 then
             vim.cmd.cd(data.file)
             vim.cmd.bdelete()
-            require("telescope.builtin").find_files()
+            -- Open harpoon menu
+            vim.defer_fn(function()
+                require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+            end, 0)
+        -- Check if no file was provided (empty buffer)
+        elseif data.file == "" and vim.bo.buftype == "" then
+            vim.defer_fn(function()
+                require("harpoon").ui:toggle_quick_menu(require("harpoon"):list())
+            end, 0)
         end
     end,
 })
