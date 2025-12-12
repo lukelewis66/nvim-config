@@ -25,6 +25,9 @@ vim.opt.backup = false
 vim.opt.undofile = true
 vim.opt.updatetime = 50
 
+-- Clipboard (use system clipboard)
+vim.opt.clipboard = "unnamedplus"  -- Use + register (system clipboard) for yank/delete/put
+
 -- Disable netrw (we use mini.files and telescope)
 vim.g.loaded_netrw = 1
 vim.g.loaded_netrwPlugin = 1
