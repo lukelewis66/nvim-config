@@ -12,9 +12,16 @@ return {
             mode = "",
             desc = "Format buffer",
         },
+        {
+            "<leader>fI",
+            function()
+                require("conform").info()
+            end,
+            desc = "Conform Info",
+        },
     },
     opts = {
-        notify_on_error = false,
+        notify_on_error = true,
         format_on_save = function(bufnr)
             -- Disable auto format on save for now (you can enable if you want)
             return false
@@ -33,8 +40,7 @@ return {
         },
         formatters = {
             prettier = {
-                -- Prettier will automatically find .prettierrc files in the project
-                -- No need to specify config path, it will use the one closest to the file
+                prepend_args = { "--stdin-filepath", "$FILENAME" },
             },
         },
     },

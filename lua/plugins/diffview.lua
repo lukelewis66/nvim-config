@@ -13,20 +13,20 @@ return {
         require("diffview").setup({
             keymaps = {
                 view = {
-                    { "n", "q", actions.close, { desc = "Close diffview" } },
+                    { "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" } },
                     -- Navigate hunks (vim's built-in diff navigation)
                     { "n", "]h", "]c", { desc = "Next hunk" } },
                     { "n", "[h", "[c", { desc = "Previous hunk" } },
                 },
                 file_panel = {
-                    { "n", "q", actions.close, { desc = "Close diffview" } },
+                    { "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" } },
                     { "n", "X", actions.restore_entry, { desc = "Restore file to git version" } },
                     { "n", "s", actions.toggle_stage_entry, { desc = "Stage/unstage file" } },
                     { "n", "S", actions.stage_all, { desc = "Stage all files" } },
                     { "n", "U", actions.unstage_all, { desc = "Unstage all files" } },
                 },
                 file_history_panel = {
-                    { "n", "q", actions.close, { desc = "Close diffview" } },
+                    { "n", "q", "<cmd>DiffviewClose<cr>", { desc = "Close diffview" } },
                 },
             },
         })

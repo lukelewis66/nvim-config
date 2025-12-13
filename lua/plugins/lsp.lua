@@ -80,6 +80,18 @@ return {
         map("<leader>ca", vim.lsp.buf.code_action, "[C]ode [A]ction", { "n", "x" })
         map("gD", vim.lsp.buf.declaration, "[G]oto [D]eclaration")
         map("gh", vim.lsp.buf.hover, "[G]o [H]over")
+        map("<leader>d", vim.diagnostic.open_float, "[D]iagnostic under cursor")
+        map("<leader>dc", function()
+          local diagnostics = vim.diagnostic.get(0, { lnum = vim.api.nvim_win_get_cursor(0)[1] - 1 })
+          if #diagnostics > 0 then
+            local message = diagnostics[1].message
+            vim.fn.setreg("+", message)
+            vim.fn.setreg("*", message)
+            vim.notify("Copied diagnostic: " .. message:sub(1, 50) .. (message:len() > 50 and "..." or ""), vim.log.levels.INFO)
+          else
+            vim.notify("No diagnostic found at cursor", vim.log.levels.WARN)
+          end
+        end, "[D]iagnostic [C]opy")
 
         -- Inlay hints toggle
         local client = vim.lsp.get_client_by_id(event.data.client_id)
@@ -114,6 +126,11 @@ return {
         end
       end,
     })
+
+    -- Global diagnostic keymaps
+    vim.keymap.set("n", "[d", vim.diagnostic.goto_prev, { desc = "Previous diagnostic" })
+    vim.keymap.set("n", "]d", vim.diagnostic.goto_next, { desc = "Next diagnostic" })
+    vim.keymap.set("n", "<leader>q", vim.diagnostic.setloclist, { desc = "Diagnostics to loclist" })
 
     -- Diagnostic symbols
     if vim.g.have_nerd_font then
@@ -168,7 +185,7 @@ return {
 
     -- Mason tool installer
     require("mason-tool-installer").setup({
-      ensure_installed = { "stylua", "eslint", "typescript-language-server" },
+      ensure_installed = { "stylua", "eslint", "typescript-language-server", "prettier" },
     })
   end,
 }
