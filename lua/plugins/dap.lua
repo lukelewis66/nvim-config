@@ -5,7 +5,7 @@ return {
         keys = {
             { "<leader>db", function() require("dap").toggle_breakpoint() end, desc = "Toggle Breakpoint" },
             { "<leader>dB", function() require("dap").set_breakpoint(vim.fn.input("Breakpoint condition: ")) end, desc = "Conditional Breakpoint" },
-            { "<leader>dc", function() require("dap").continue() end, desc = "Continue" },
+            { "<leader>d<space>", function() require("dap").continue() end, desc = "Start/Continue Debugging" },
             { "<leader>dC", function() require("dap").run_to_cursor() end, desc = "Run to Cursor" },
             { "<leader>di", function() require("dap").step_into() end, desc = "Step Into" },
             { "<leader>do", function() require("dap").step_over() end, desc = "Step Over" },
@@ -14,7 +14,15 @@ return {
             { "<leader>dr", function() require("dap").repl.toggle() end, desc = "Toggle REPL" },
             { "<leader>ds", function() require("dap").session() end, desc = "Session" },
             { "<leader>dt", function() require("dap").terminate() end, desc = "Terminate" },
-            { "<leader>dw", function() require("dap.ui.widgets").hover() end, desc = "Widgets" },
+            { "<leader>dw", function()
+                local widgets = require("dap.ui.widgets")
+                local word = vim.fn.expand("<cword>")
+                if word and word ~= "" then
+                    widgets.hover(nil, { expr = word })
+                else
+                    widgets.hover()
+                end
+            end, desc = "Inspect Variable (word under cursor)" },
             { "<leader>dl", function() require("dap").list_breakpoints() vim.cmd("copen") end, desc = "List Breakpoints" },
             { "<leader>df", function() require("dap.ui.widgets").centered_float(require("dap.ui.widgets").frames) end, desc = "Show Stack Frames" },
         },
@@ -117,7 +125,22 @@ return {
         dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
         keys = {
             { "<leader>du", function() require("dapui").toggle({}) end, desc = "Toggle DAP UI" },
-            { "<leader>de", function() require("dapui").eval() end, desc = "Eval", mode = { "n", "v" } },
+            { "<leader>de", function()
+                local dapui = require("dapui")
+                local mode = vim.fn.mode()
+                if mode == "v" or mode == "V" then
+                    -- Visual mode: eval selection
+                    dapui.eval()
+                else
+                    -- Normal mode: eval word under cursor
+                    local word = vim.fn.expand("<cword>")
+                    if word and word ~= "" then
+                        dapui.eval(word)
+                    else
+                        dapui.eval()
+                    end
+                end
+            end, desc = "Eval (word under cursor or selection)", mode = { "n", "v" } },
         },
         opts = {},
         config = function(_, opts)
