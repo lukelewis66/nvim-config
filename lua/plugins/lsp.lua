@@ -168,26 +168,7 @@ return {
 		--  - settings (table): Override the default settings passed when initializing the server.
 		--        For example, to see the options for `lua_ls`, you could go to: https://luals.github.io/wiki/settings/
 		local servers = {
-			-- Some languages (like typescript) have entire language plugins that can be useful:
-			--    https://github.com/pmizio/typescript-tools.nvim
-			ts_ls = {
-				-- See https://github.com/typescript-language-server/typescript-language-server/blob/master/docs/configuration.md
-				filetypes = {
-					"javascript",
-					"javascriptreact",
-					"javascript.jsx",
-					"typescript",
-					"typescriptreact",
-					"typescript.tsx",
-				},
-				root_dir = require("lspconfig.util").root_pattern("package.json", "tsconfig.json", "jsconfig.json", ".git"),
-				init_options = {
-					maxTsServerMemory = 8192,
-					defaultMaximumTruncationLength = 100000,
-					tsdk = "node_modules/typescript/lib",
-					enablePromptUseWorkspaceTsdk = true,
-				},
-			},
+			-- TypeScript is handled by typescript-tools.nvim (see typescript-tools.lua)
 			bashls = {},
 			lua_ls = {
 				-- cmd = {...},
