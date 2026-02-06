@@ -170,6 +170,11 @@ return {
 		local servers = {
 			-- TypeScript is handled by typescript-tools.nvim (see typescript-tools.lua)
 			bashls = {},
+			eslint = {
+				cmd_env = {
+					NODE_OPTIONS = "--max-old-space-size=16384",
+				},
+			},
 			lua_ls = {
 				-- cmd = {...},
 				-- filetypes = { ...},

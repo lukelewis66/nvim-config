@@ -1,11 +1,14 @@
 return {
-    'nvim-telescope/telescope.nvim', tag = 'v0.2.0',
-    dependencies = { 'nvim-lua/plenary.nvim' },
+    'nvim-telescope/telescope.nvim', branch = '0.1.x',
+    dependencies = {
+        'nvim-lua/plenary.nvim',
+        'nvim-telescope/telescope-live-grep-args.nvim',
+    },
     -- Load telescope when opening files (so LSP keymaps work)
     event = { "BufReadPre", "BufNewFile" },
     keys = {
         { '<leader>ff', '<cmd>Telescope find_files<cr>', desc = 'Find Files' },
-        { '<leader>fg', '<cmd>Telescope live_grep<cr>', desc = 'Live Grep' },
+        { '<leader>fg', function() require('telescope').extensions.live_grep_args.live_grep_args() end, desc = 'Live Grep (with args)' },
         { '<leader>fb', '<cmd>Telescope buffers<cr>', desc = 'Buffers' },
         { '<leader>fh', '<cmd>Telescope help_tags<cr>', desc = 'Help Tags' },
         { '<leader>fk', '<cmd>Telescope keymaps<cr>', desc = 'Keymaps' },
@@ -23,7 +26,28 @@ return {
     },
     config = function()
         local actions = require("telescope.actions")
+        local lga_actions = require("telescope-live-grep-args.actions")
         require("telescope").setup({
+            extensions = {
+                live_grep_args = {
+                    auto_quoting = true,
+                    mappings = {
+                        i = {
+                            ["<C-q>"] = lga_actions.quote_prompt(),
+                            ["<C-g>"] = lga_actions.quote_prompt({ postfix = " -g " }),
+                        },
+                    },
+                },
+            },
+            pickers = {
+                buffers = {
+                    mappings = {
+                        i = {
+                            ["<C-x>"] = actions.delete_buffer,
+                        },
+                    },
+                },
+            },
             defaults = {
                 -- Truncate path from the left, keeping the filename visible
                 path_display = { "truncate" },
@@ -72,5 +96,6 @@ return {
                 },
             },
         })
+        require("telescope").load_extension("live_grep_args")
     end,
 }
