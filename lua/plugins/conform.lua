@@ -23,14 +23,13 @@ return {
     opts = {
         notify_on_error = true,
         format_on_save = function(bufnr)
-            -- Disable auto format on save for now (you can enable if you want)
-            return false
+            return { timeout_ms = 2000, lsp_fallback = true }
         end,
         formatters_by_ft = {
-            javascript = { "prettier" },
-            javascriptreact = { "prettier" },
-            typescript = { "prettier" },
-            typescriptreact = { "prettier" },
+            javascript = { "eslint_d", "prettier" },
+            javascriptreact = { "eslint_d", "prettier" },
+            typescript = { "eslint_d", "prettier" },
+            typescriptreact = { "eslint_d", "prettier" },
             json = { "prettier" },
             yaml = { "prettier" },
             markdown = { "prettier" },

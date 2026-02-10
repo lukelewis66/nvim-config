@@ -170,11 +170,15 @@ return {
 		local servers = {
 			-- TypeScript is handled by typescript-tools.nvim (see typescript-tools.lua)
 			bashls = {},
-			eslint = {
-				cmd_env = {
-					NODE_OPTIONS = "--max-old-space-size=16384",
-				},
-			},
+			-- NOTE: Using eslint_d via nvim-lint instead (see lint.lua)
+			-- eslint = {
+			-- 	cmd_env = {
+			-- 		NODE_OPTIONS = "--max-old-space-size=16384",
+			-- 	},
+			-- 	settings = {
+			-- 		run = "onSave",
+			-- 	},
+			-- },
 			lua_ls = {
 				-- cmd = {...},
 				-- filetypes = { ...},
@@ -216,7 +220,7 @@ return {
 		local ensure_installed = vim.tbl_keys(servers or {})
 		vim.list_extend(ensure_installed, {
 			"stylua", -- Used to format Lua code
-			"eslint-lsp",
+			"eslint_d", -- Used by nvim-lint for JS/TS linting
 		})
 		require("mason-tool-installer").setup({ ensure_installed = ensure_installed })
 
